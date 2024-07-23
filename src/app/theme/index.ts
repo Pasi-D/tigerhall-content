@@ -9,7 +9,7 @@ export const theme = extendTheme({
   styles: {
     global: () => ({
       body: {
-        background: "",
+        background: "#151617",
         color: "white",
       },
     }),
@@ -17,6 +17,11 @@ export const theme = extendTheme({
   fonts: {
     heading: "var(--font-pp)",
     body: "var(--font-pp)",
+  },
+  colors: {
+    brand: {
+      primary: "#FF5900",
+    },
   },
   config,
 });
