@@ -18,6 +18,14 @@ Install the dependencies first
 yarn
 ```
 
+Create a copy of [.env.dist](./.env.dist)
+
+```bash
+cp .env.dist .env.local
+```
+
+Update the `.env.local` with appropriate values.
+
 Then, run the development server:
 
 ```bash
