@@ -14,12 +14,12 @@ const Home: React.FC = async () => {
   });
 
   return (
-    <main className="flex min-h-screen flex-col font-pp p-24">
+    <main className="flex min-h-screen items-center flex-col font-pp md:p-24 p-8">
       <div className="w-full max-w-5xl mb-3">
         <SearchBar placeholder="Search.." />
       </div>
-      <div className="w-full max-w-5xl items-center justify-between text-sm lg:flex">
-        <SimpleGrid spacing={5} columns={3}>
+      <div className="w-full sm:max-w-5xl justify-between text-sm lg:flex">
+        <SimpleGrid spacing={5} columns={[1, null, 3]}>
           {data.contentCards.edges.map((podcast, index) => {
             const resizedImageUri = getResizedImageUrl(
               podcast.image.uri,
