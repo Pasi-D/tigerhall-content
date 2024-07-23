@@ -9,7 +9,7 @@ const ppNeuman = localFont({
     },
     {
       path: "../../../../public/fonts/PPNeueMontreal-SemiBolditalic.woff2",
-      weight: "600",
+      weight: "500",
       style: "normal",
     },
     {
