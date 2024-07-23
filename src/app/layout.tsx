@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { fonts } from "./theme/fonts";
-import ChakraProvider from "./components/providers/chakra";
+import { ApolloProvider, ChakraProvider } from "./components/providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={fonts.ppNeuman.className}>
-        <ChakraProvider>{children}</ChakraProvider>
+        <ApolloProvider>
+          <ChakraProvider>{children}</ChakraProvider>
+        </ApolloProvider>
       </body>
     </html>
   );
