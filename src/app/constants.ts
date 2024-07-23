@@ -1,0 +1,4 @@
+export const PODCAST_IMAGE_ATTRIBUTES = {
+  IMAGE_WIDTH: 244,
+  IMAGE_HEIGHT: 100,
+};

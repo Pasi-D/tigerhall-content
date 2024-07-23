@@ -7,6 +7,7 @@ interface PodcastExpert {
   firstName: string;
   lastName: string;
   title: string;
+  company: string;
 }
 
 interface Podcast {
@@ -15,6 +16,7 @@ interface Podcast {
   image: {
     uri: string;
   };
+  length: number;
   categories: Array<PodcastCategory>;
   experts: Array<PodcastExpert>;
 }

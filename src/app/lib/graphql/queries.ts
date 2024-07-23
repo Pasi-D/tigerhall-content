@@ -7,6 +7,7 @@ export const GET_PODCASTS_QUERY = gql`
         ... on Podcast {
           id
           name
+          length
           image {
             ...Image
           }
