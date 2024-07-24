@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { SimpleGrid, useBreakpointValue } from "@chakra-ui/react";
+import { SimpleGrid, Stack, useBreakpointValue } from "@chakra-ui/react";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@apollo/client";
 import { debounce } from "lodash";
@@ -119,7 +119,7 @@ const PodcastList: React.FC<PodcastListProps> = () => {
   );
 
   return (
-    <>
+    <Stack direction="column" data-testid="podcast-list">
       <div className="w-full max-w-5xl mb-3">
         <SearchBar placeholder="Search.." onChange={handleSearchChange} value={searchKeywords} />
       </div>
@@ -149,7 +149,7 @@ const PodcastList: React.FC<PodcastListProps> = () => {
           )}
         </>
       )}
-    </>
+    </Stack>
   );
 };
 

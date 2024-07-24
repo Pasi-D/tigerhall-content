@@ -38,6 +38,29 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [Pangram Pangram](https://pangrampangram.com/) fonts starter pack. This is not intended for commercial purposes.
 
+## Testing
+
+This project is integrated with [playwright](https://playwright.dev/) for E2E testing.
+
+You can use below commands to run test cases.
+
+> #### Run the E2E tests
+
+```bash
+yarn test
+```
+
+> #### Start tests in interactive UI mode
+
+```bash
+yarn test --ui
+```
+> #### Run the tests only on Desktop chrome
+
+```bash
+yarn test --project=chromium
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
