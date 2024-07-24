@@ -32,7 +32,7 @@ const PodcastList: React.FC<PodcastListProps> = ({ queryRef }) => {
             return (
               <Card key={`podcast-grid-item-${index}`}>
                 <Image
-                  objectFit="cover"
+                  className="object-cover"
                   src={resizedImageUri}
                   alt={podcast.name}
                   width={PODCAST_IMAGE_ATTRIBUTES.IMAGE_WIDTH}
