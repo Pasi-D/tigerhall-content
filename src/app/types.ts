@@ -21,9 +21,17 @@ interface Podcast {
   experts: Array<PodcastExpert>;
 }
 
+interface PodcastMeta {
+  total: number;
+  limit: number;
+  offset: number;
+  __typename: "PageInfo";
+}
+
 export interface Podcasts {
   contentCards: {
     edges: Array<Podcast>;
+    meta: PodcastMeta;
   };
 }
 

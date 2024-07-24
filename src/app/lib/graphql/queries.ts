@@ -21,6 +21,11 @@ export const GET_PODCASTS_QUERY = gql`
           }
         }
       }
+      meta {
+        total
+        offset
+        limit
+      }
     }
   }
 
