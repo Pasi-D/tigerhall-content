@@ -1,3 +1,7 @@
+/**
+ * GraphQL types generated manually. Use @graphql-codegen/cli to automatically generate the types instead.
+ */
+
 interface PodcastCategory {
   id: string;
   name: string;
