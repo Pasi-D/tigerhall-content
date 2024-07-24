@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid, useBreakpointValue } from "@chakra-ui/react";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@apollo/client";
 import { debounce } from "lodash";
@@ -12,16 +12,25 @@ import PodcastCard from "./PodcastCard";
 import { GetPodcastsVariables, Podcasts } from "../../../types";
 import {
   ITEMS_PER_PAGE,
-  PODCAST_GRID_COLUMNS,
+  PODCAST_GRID_COLUMNS_LAYOUT,
   SEARCH_DEBOUNCE_THRESHOLD,
 } from "../../../constants";
 import { GET_PODCASTS_QUERY } from "../../../lib/graphql/queries";
 import { generateRandomProgress } from "@/src/app/lib/utils";
+import SkeletonCard from "../SkeletonCard";
 
 interface PodcastListProps {}
 
 const PodcastList: React.FC<PodcastListProps> = () => {
   const [ref, inView] = useInView({ threshold: 0 });
+
+  const LOADING_SKELETON_COUNT = useBreakpointValue(
+    {
+      base: 2,
+      md: 6,
+    },
+    { fallback: "md" },
+  );
 
   const [hasMore, setHasMore] = useState(false);
   const [podcasts, setPodcasts] = useState<Podcasts["contentCards"]["edges"]>([]);
@@ -95,13 +104,27 @@ const PodcastList: React.FC<PodcastListProps> = () => {
     }
   }, [fetchMorePodcasts, hasMore, inView, loading]);
 
+  const renderSkeletons = () => (
+    <SimpleGrid
+      spacing={5}
+      columns={PODCAST_GRID_COLUMNS_LAYOUT}
+      className="w-full sm:max-w-5xl justify-between lg:flex text-sm"
+    >
+      {Array(LOADING_SKELETON_COUNT)
+        .fill(0)
+        .map((_, index) => (
+          <SkeletonCard key={`skeleton-${index}`} />
+        ))}
+    </SimpleGrid>
+  );
+
   return (
     <>
       <div className="w-full max-w-5xl mb-3">
         <SearchBar placeholder="Search.." onChange={handleSearchChange} value={searchKeywords} />
       </div>
       {loading ? (
-        <Loading />
+        renderSkeletons()
       ) : meta && meta.total == 0 ? (
         <div className="mt-3 self-center">
           <p>No podcasts found</p>
@@ -109,7 +132,7 @@ const PodcastList: React.FC<PodcastListProps> = () => {
       ) : (
         <>
           <div className="w-full sm:max-w-5xl justify-between text-sm lg:flex">
-            <SimpleGrid spacing={5} columns={PODCAST_GRID_COLUMNS}>
+            <SimpleGrid spacing={5} columns={PODCAST_GRID_COLUMNS_LAYOUT}>
               {podcasts.map((podcast, index) => (
                 <PodcastCard
                   key={`podcast-grid-item-${index}`}

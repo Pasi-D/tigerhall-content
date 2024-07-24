@@ -1,6 +1,8 @@
 import { SimpleGridProps } from "@chakra-ui/react";
 
-export const PODCAST_GRID_COLUMNS: SimpleGridProps["columns"] = [1, null, 3];
+const PODCAST_COLUMNS = 3;
+
+export const PODCAST_GRID_COLUMNS_LAYOUT: SimpleGridProps["columns"] = [1, null, PODCAST_COLUMNS];
 
 export const ITEMS_PER_PAGE = 10;
 

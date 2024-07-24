@@ -51,7 +51,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, progress }) => {
           alignItems="center"
           bg="white"
           className="rounded-tl-lg rounded-br-lg"
-          px={3}
+          px={2}
           py={1}
         >
           <Icon as={progressIcon} color="brand.primary" mr={1} opacity={0.75} />
@@ -70,8 +70,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, progress }) => {
           position="absolute"
           bottom={2}
           right={2}
-          bg="black"
-          opacity={0.5}
+          bg="rgba(0, 0, 0, 0.5)"
           borderRadius="full"
           alignItems="center"
           px={2}
@@ -87,11 +86,11 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, progress }) => {
       <CardHeader p={2}>
         <Flex direction="column" gap={0}>
           {podcast.categories.length && (
-            <Text fontSize="smaller" color="gray.500" fontWeight="normal">
+            <Text fontSize="small" color="gray.500" fontWeight="normal">
               {podcast.categories[0].name.toUpperCase()}
             </Text>
           )}
-          <Text fontSize="large" fontWeight="bold">
+          <Text fontWeight="bold" className="podcast-name text-xl">
             {podcast.name}
           </Text>
         </Flex>

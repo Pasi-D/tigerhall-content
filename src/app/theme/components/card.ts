@@ -8,6 +8,12 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
 const baseStyle = definePartsStyle({
   container: {
     backgroundColor: "#ffffff",
+    cursor: "pointer",
+    _hover: {
+      ".podcast-name": {
+        textDecoration: "underline",
+      },
+    },
   },
 });
 
