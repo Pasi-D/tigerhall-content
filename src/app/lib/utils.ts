@@ -15,3 +15,13 @@ export const getResizedImageUrl = (url: string, width: number, height: number) =
     return url;
   }
 };
+
+export const getPodcastDuration = (minutes: number) => {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  const hoursPart = hours > 0 ? `${hours}h` : "";
+  const minutesPart = remainingMinutes > 0 ? `${remainingMinutes}m` : "";
+
+  return `${hoursPart} ${minutesPart}`.trim();
+};
