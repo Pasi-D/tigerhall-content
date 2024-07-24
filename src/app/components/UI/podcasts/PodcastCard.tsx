@@ -35,7 +35,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, progress }) => {
   const progressIcon = getProgressIcon(progress);
 
   return (
-    <Card size="lg" boxShadow="md" overflow="hidden">
+    <Card size="lg" boxShadow="md" overflow="hidden" data-testid="podcast-card">
       <Box position="relative">
         <Img
           className="object-cover w-[100%] h-auto rounded-t-lg"

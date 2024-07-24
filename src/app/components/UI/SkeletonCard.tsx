@@ -5,7 +5,7 @@ import { Card, Skeleton } from "@chakra-ui/react";
 import PodcastCard from "./podcasts/PodcastCard";
 
 const SkeletonCard = () => (
-  <Skeleton>
+  <Skeleton data-testid="skeleton-card">
     <Card size="lg" boxShadow="md" overflow="hidden" className="w-1/3 h-60">
       <PodcastCard
         progress={20}

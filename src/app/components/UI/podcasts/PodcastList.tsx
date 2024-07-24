@@ -143,7 +143,7 @@ const PodcastList: React.FC<PodcastListProps> = () => {
             </SimpleGrid>
           </div>
           {hasMore && (
-            <div className="mt-3 self-center" ref={ref}>
+            <div className="mt-3 self-center" ref={ref} data-testid="loading-indicator">
               <Loading />
             </div>
           )}
