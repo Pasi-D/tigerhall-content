@@ -1,5 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
-import PodcastList from "./components/ui/podcasts/PodcastList";
+import PodcastList from "./components/UI/podcasts/PodcastList";
 
 const Home: React.FC = async () => {
   return (
