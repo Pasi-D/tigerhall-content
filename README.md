@@ -42,6 +42,8 @@ This project uses [Pangram Pangram](https://pangrampangram.com/) fonts starter p
 
 This project is integrated with [playwright](https://playwright.dev/) for E2E testing.
 
+**Before running the tests locally make sure you have the development server started.**
+
 You can use below commands to run test cases.
 
 > #### Run the E2E tests
@@ -59,6 +61,20 @@ yarn test --ui
 
 ```bash
 yarn test --project=chromium
+```
+
+## Getting production build
+
+You can create a production build using. Ensure you have the correct `.env.local` file.
+
+```bash
+yarn build
+```
+
+Then use below command to start in production server
+
+```bash
+yarn start
 ```
 
 ## Learn More
