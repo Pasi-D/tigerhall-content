@@ -1,51 +1,73 @@
 "use client";
 
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Card, CardHeader, SimpleGrid } from "@chakra-ui/react";
 import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@apollo/client";
+
 import SearchBar from "./SearchBar";
 import Loading from "./Loading";
 import { GetPodcastsVariables, Podcasts } from "../../types";
 import { getResizedImageUrl } from "../../lib/utils";
-import { ITEMS_PER_PAGE, PODCAST_IMAGE_ATTRIBUTES } from "../../constants";
+import {
+  ITEMS_PER_PAGE,
+  PODCAST_IMAGE_ATTRIBUTES,
+  SEARCH_DEBOUNCE_THRESHOLD,
+} from "../../constants";
 import { GET_PODCASTS_QUERY } from "../../lib/graphql/queries";
+import { debounce } from "lodash";
 
 interface PodcastListProps {}
 
 const PodcastList: React.FC<PodcastListProps> = () => {
   const [ref, inView] = useInView({ threshold: 0 });
+
+  const [hasMore, setHasMore] = useState(false);
+  const [podcasts, setPodcasts] = useState<Podcasts["contentCards"]["edges"]>([]);
+  const [meta, setMeta] = useState<Podcasts["contentCards"]["meta"]>();
+  const [searchKeywords, setSearchKeywords] = useState("");
+  const [debouncedSearchKeywords, setDebouncedSearchKeywords] = useState("");
+
+  console.log("meta ::", meta);
+
   const { data, fetchMore, loading } = useQuery<Podcasts, GetPodcastsVariables>(
     GET_PODCASTS_QUERY,
     {
       variables: {
-        keywords: "",
+        keywords: debouncedSearchKeywords,
         limit: ITEMS_PER_PAGE,
         offset: 0,
       },
     },
   );
 
-  const [hasMore, setHasMore] = useState(false);
-  const [podcasts, setPodcasts] = useState<Podcasts["contentCards"]["edges"]>([]);
-  const [meta, setMeta] = useState<Podcasts["contentCards"]["meta"]>();
-  const [searchKeywords, setSearchKeywords] = useState("");
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setDebouncedSearchKeywords(value);
+      }, SEARCH_DEBOUNCE_THRESHOLD),
+    [],
+  );
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchKeywords(event.target.value);
+    debouncedSearch(event.target.value);
   };
 
   const fetchMorePodcasts = useCallback(async () => {
     try {
-      if (meta?.total && meta?.offset && meta.offset >= meta.total) {
+      if (
+        meta?.total &&
+        ((meta?.offset && meta.offset >= meta.total) || ITEMS_PER_PAGE >= meta.total)
+      ) {
         setHasMore(false);
         return;
       }
       const { data: newData } = await fetchMore({
         variables: {
           limit: ITEMS_PER_PAGE,
-          keywords: "",
+          keywords: debouncedSearchKeywords,
           offset: (meta?.offset || 0) + ITEMS_PER_PAGE,
         },
       });
@@ -59,7 +81,7 @@ const PodcastList: React.FC<PodcastListProps> = () => {
     } catch (error) {
       console.error("GraphQL fetch error :", error);
     }
-  }, [meta?.total, meta?.offset, fetchMore]);
+  }, [meta?.total, meta?.offset, fetchMore, debouncedSearchKeywords]);
 
   useEffect(() => {
     if (data?.contentCards) {
@@ -82,6 +104,10 @@ const PodcastList: React.FC<PodcastListProps> = () => {
       </div>
       {loading ? (
         <Loading />
+      ) : meta && meta.total == 0 ? (
+        <div className="mt-3 self-center">
+          <p>No podcasts found</p>
+        </div>
       ) : (
         <>
           <div className="w-full sm:max-w-5xl justify-between text-sm lg:flex">
