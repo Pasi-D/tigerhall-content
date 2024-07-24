@@ -26,3 +26,9 @@ export interface Podcasts {
     edges: Array<Podcast>;
   };
 }
+
+export interface GetPodcastsVariables {
+  limit: number;
+  keywords: string;
+  offset: number;
+}
