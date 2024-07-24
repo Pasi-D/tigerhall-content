@@ -1,4 +1,5 @@
 import { extendTheme, ThemeConfig } from "@chakra-ui/react";
+import cardTheme from "./components/card";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
@@ -24,4 +25,7 @@ export const theme = extendTheme({
     },
   },
   config,
+  components: {
+    Card: cardTheme,
+  },
 });
