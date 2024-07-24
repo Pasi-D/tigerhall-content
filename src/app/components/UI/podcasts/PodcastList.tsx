@@ -1,22 +1,21 @@
 "use client";
 
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { Box, Card, CardHeader, SimpleGrid } from "@chakra-ui/react";
-import Image from "next/image";
+import { SimpleGrid } from "@chakra-ui/react";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@apollo/client";
+import { debounce } from "lodash";
 
-import SearchBar from "./SearchBar";
-import Loading from "./Loading";
-import { GetPodcastsVariables, Podcasts } from "../../types";
-import { getResizedImageUrl } from "../../lib/utils";
+import SearchBar from "../SearchBar";
+import Loading from "../Loading";
+import { GetPodcastsVariables, Podcasts } from "../../../types";
 import {
   ITEMS_PER_PAGE,
-  PODCAST_IMAGE_ATTRIBUTES,
+  PODCAST_GRID_COLUMNS,
   SEARCH_DEBOUNCE_THRESHOLD,
-} from "../../constants";
-import { GET_PODCASTS_QUERY } from "../../lib/graphql/queries";
-import { debounce } from "lodash";
+} from "../../../constants";
+import { GET_PODCASTS_QUERY } from "../../../lib/graphql/queries";
+import PodcastCard from "./PodcastCard";
 
 interface PodcastListProps {}
 
@@ -28,8 +27,6 @@ const PodcastList: React.FC<PodcastListProps> = () => {
   const [meta, setMeta] = useState<Podcasts["contentCards"]["meta"]>();
   const [searchKeywords, setSearchKeywords] = useState("");
   const [debouncedSearchKeywords, setDebouncedSearchKeywords] = useState("");
-
-  console.log("meta ::", meta);
 
   const { data, fetchMore, loading } = useQuery<Podcasts, GetPodcastsVariables>(
     GET_PODCASTS_QUERY,
@@ -111,45 +108,10 @@ const PodcastList: React.FC<PodcastListProps> = () => {
       ) : (
         <>
           <div className="w-full sm:max-w-5xl justify-between text-sm lg:flex">
-            <SimpleGrid spacing={5} columns={[1, null, 3]}>
-              {podcasts.map((podcast, index) => {
-                const resizedImageUri = getResizedImageUrl(
-                  podcast.image.uri,
-                  PODCAST_IMAGE_ATTRIBUTES.IMAGE_WIDTH,
-                  PODCAST_IMAGE_ATTRIBUTES.IMAGE_HEIGHT,
-                );
-                return (
-                  <Card key={`podcast-grid-item-${index}`}>
-                    <Image
-                      className="object-cover w-auto h-auto"
-                      src={resizedImageUri}
-                      alt={podcast.name}
-                      width={PODCAST_IMAGE_ATTRIBUTES.IMAGE_WIDTH}
-                      height={PODCAST_IMAGE_ATTRIBUTES.IMAGE_HEIGHT}
-                    />
-                    <CardHeader>
-                      <Box>
-                        {podcast.categories.length && (
-                          <h2 className="mb-0 text-xl font-light text-gray-500">
-                            {podcast.categories[0].name}
-                          </h2>
-                        )}
-                        <h1 className="mt-0 text-2xl font-bold">{podcast.name}</h1>
-                      </Box>
-                      <Box>
-                        {podcast.experts.length && (
-                          <>
-                            <p className="text-base">{`${podcast.experts[0].firstName} ${podcast.experts[0].lastName}`}</p>
-                            <p className="text-base font-bold text-gray-500">
-                              {podcast.experts[0].company}
-                            </p>
-                          </>
-                        )}
-                      </Box>
-                    </CardHeader>
-                  </Card>
-                );
-              })}
+            <SimpleGrid spacing={5} columns={PODCAST_GRID_COLUMNS}>
+              {podcasts.map((podcast, index) => (
+                <PodcastCard key={`podcast-grid-item-${index}`} podcast={podcast} />
+              ))}
             </SimpleGrid>
           </div>
           {hasMore && (

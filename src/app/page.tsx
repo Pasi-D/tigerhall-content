@@ -1,4 +1,4 @@
-import PodcastList from "./components/ui/PodcastList";
+import PodcastList from "./components/ui/podcasts/PodcastList";
 
 // https://github.com/apollographql/apollo-client-nextjs/issues/332
 const Home: React.FC = async () => {
