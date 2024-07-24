@@ -1,13 +1,13 @@
 "use client";
 
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftElement, InputProps } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 
-interface SearchBarProps {
+interface SearchBarProps extends InputProps {
   placeholder: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ placeholder }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ placeholder, ...rest }) => {
   return (
     <InputGroup borderRadius={5} size="sm">
       <InputLeftElement pointerEvents="none">
@@ -18,6 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder }) => {
         type="text"
         placeholder={placeholder}
         border="1px solid #718096"
+        {...rest}
       />
     </InputGroup>
   );
