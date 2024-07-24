@@ -1,30 +1,43 @@
 "use client";
 
-import { Avatar, Box, Card, CardHeader, Flex, Icon, Progress, Stack, Text } from "@chakra-ui/react";
-import { RiProgress3Line, RiShareLine, RiBookmarkLine } from "react-icons/ri";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardHeader,
+  Flex,
+  Icon,
+  Img,
+  Progress,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { RiShareLine, RiBookmarkLine } from "react-icons/ri";
 import { FaHeadphones } from "react-icons/fa";
 import { WiTime3 } from "react-icons/wi";
-import Image from "next/image";
 
 import { PODCAST_IMAGE_ATTRIBUTES } from "@/src/app/constants";
-import { getPodcastDuration, getResizedImageUrl } from "@/src/app/lib/utils";
+import { getPodcastDuration, getProgressIcon, getResizedImageUrl } from "@/src/app/lib/utils";
 import { Podcasts } from "@/src/app/types";
 
 interface PodcastCardProps {
   podcast: Podcasts["contentCards"]["edges"][number];
+  progress: number;
 }
 
-const PodcastCard: React.FC<PodcastCardProps> = ({ podcast }) => {
+const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, progress }) => {
   const resizedImageUri = getResizedImageUrl(
     podcast.image.uri,
     PODCAST_IMAGE_ATTRIBUTES.IMAGE_WIDTH,
     PODCAST_IMAGE_ATTRIBUTES.IMAGE_HEIGHT,
   );
 
+  const progressIcon = getProgressIcon(progress);
+
   return (
     <Card size="lg" boxShadow="md" overflow="hidden">
       <Box position="relative">
-        <Image
+        <Img
           className="object-cover w-[100%] h-auto rounded-t-lg"
           src={resizedImageUri}
           alt={podcast.name}
@@ -41,9 +54,9 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast }) => {
           px={3}
           py={1}
         >
-          <Icon as={RiProgress3Line} color="brand.primary" mr={1} opacity={0.75} />
+          <Icon as={progressIcon} color="brand.primary" mr={1} opacity={0.75} />
           <Text fontSize="smaller" fontWeight="bold">
-            30% Completed
+            {`${progress}% Completed`}
           </Text>
         </Flex>
         <Flex position="absolute" bottom={2} left={1}>
@@ -70,7 +83,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast }) => {
           </Text>
         </Flex>
       </Box>
-      <Progress colorScheme="orange" value={30} size="xs" />
+      <Progress colorScheme="orange" value={progress} size="xs" />
       <CardHeader p={2}>
         <Flex direction="column" gap={0}>
           {podcast.categories.length && (

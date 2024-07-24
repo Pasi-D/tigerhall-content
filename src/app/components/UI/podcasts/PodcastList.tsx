@@ -8,6 +8,7 @@ import { debounce } from "lodash";
 
 import SearchBar from "../SearchBar";
 import Loading from "../Loading";
+import PodcastCard from "./PodcastCard";
 import { GetPodcastsVariables, Podcasts } from "../../../types";
 import {
   ITEMS_PER_PAGE,
@@ -15,7 +16,7 @@ import {
   SEARCH_DEBOUNCE_THRESHOLD,
 } from "../../../constants";
 import { GET_PODCASTS_QUERY } from "../../../lib/graphql/queries";
-import PodcastCard from "./PodcastCard";
+import { generateRandomProgress } from "@/src/app/lib/utils";
 
 interface PodcastListProps {}
 
@@ -110,7 +111,11 @@ const PodcastList: React.FC<PodcastListProps> = () => {
           <div className="w-full sm:max-w-5xl justify-between text-sm lg:flex">
             <SimpleGrid spacing={5} columns={PODCAST_GRID_COLUMNS}>
               {podcasts.map((podcast, index) => (
-                <PodcastCard key={`podcast-grid-item-${index}`} podcast={podcast} />
+                <PodcastCard
+                  key={`podcast-grid-item-${index}`}
+                  podcast={podcast}
+                  progress={generateRandomProgress(index)}
+                />
               ))}
             </SimpleGrid>
           </div>
